@@ -30,6 +30,7 @@ public class Util {
         try {
             connection = DriverManager.getConnection(prop.getProperty("url"),
                     prop.getProperty("user"), prop.getProperty("password"));
+            connection.setAutoCommit(false);
         } catch (SQLException e) {
             System.out.println("Не удалось установить соединение с базой данных");
         }

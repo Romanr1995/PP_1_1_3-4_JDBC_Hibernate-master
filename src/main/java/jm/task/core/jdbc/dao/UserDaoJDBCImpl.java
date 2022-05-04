@@ -19,7 +19,13 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
             connection.createStatement().execute("create table if not exists users " +
                     "(id BIGINT PRIMARY KEY AUTO_INCREMENT, name varchar(100), lastName varchar(100), age TINYINT)");
+            connection.commit();
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -27,7 +33,13 @@ public class UserDaoJDBCImpl implements UserDao {
     public void dropUsersTable() {
         try {
             connection.createStatement().execute("Drop Table if exists users");
+            connection.commit();
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -36,12 +48,19 @@ public class UserDaoJDBCImpl implements UserDao {
         String sql = "insert into users (name, lastName, age) values (?, ?, ?)";
 
         try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+
             pstm.setString(1, name);
             pstm.setString(2, lastName);
             pstm.setByte(3, age);
 
             pstm.execute();
+            connection.commit();
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -53,7 +72,13 @@ public class UserDaoJDBCImpl implements UserDao {
             pstm.setLong(1, id);
             pstm.executeUpdate();
 
+            connection.commit();
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -74,7 +99,13 @@ public class UserDaoJDBCImpl implements UserDao {
                 users.add(new User(id, name, lastName, age));
             }
 
+            connection.commit();
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
 
@@ -84,7 +115,13 @@ public class UserDaoJDBCImpl implements UserDao {
     public void cleanUsersTable() {
         try {
             connection.createStatement().execute("DELETE FROM users");
+            connection.commit();
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
