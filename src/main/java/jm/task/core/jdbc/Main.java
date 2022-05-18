@@ -22,13 +22,7 @@ public class Main {
 
         for (User user : users) {
             userService.saveUser(user.getName(), user.getLastName(), user.getAge());
-            System.out.println("User с именем - " + user.getName() + " добавлен в базу данных");
         }
-
-        users = userService.getAllUsers();
-
-        System.out.println("All users: " + users);
-
 
         userService.cleanUsersTable();
         userService.dropUsersTable();
